@@ -101,7 +101,7 @@ const Register = () => {
                   required
                   onChange={handleChange}
                   className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-4 focus:ring-emerald-50 focus:border-emerald-500 transition-all font-bold text-slate-700 text-sm"
-                  placeholder="Mohit Kumar"
+                  placeholder="PALTHYA SHIVA PRASAD"
                 />
               </div>
             </div>

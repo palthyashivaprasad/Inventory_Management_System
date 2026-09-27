@@ -264,6 +264,6 @@ npm run dev
 ---
 
 ## ✍️ Author
-**Mohit Kumawat**
+**PALTHYA SHIVA PRASAD**
 
 If you found this project helpful or inspiring, please consider giving it a ⭐ on GitHub!

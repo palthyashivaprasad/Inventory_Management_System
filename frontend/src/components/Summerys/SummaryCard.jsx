@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FiTrendingUp, FiTrendingDown, FiAlertCircle, FiLayers, FiClock, FiCheckCircle, FiPackage, FiActivity, FiDollarSign, FiMapPin, FiRefreshCw } from 'react-icons/fi';
 import AnalysisModal from '../Charts/AnalysisModalChart';
 
-const SummaryCard = ({ items, userName = "Mohit" }) => {
+const SummaryCard = ({ items, userName = "PALTHYA SHIVA PRASAD" }) => {
     const [selectedCard, setSelectedCard] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
