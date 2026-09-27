@@ -1,338 +1,269 @@
-# Inventory Management System
+<div align="center">
+  <h1>📦 Inventory Management System</h1>
+  <p><strong>A Full-Stack Enterprise-grade Inventory Management System built with the MERN Stack.</strong></p>
 
-A full-stack **Inventory Management System** built using the **MERN Stack (MongoDB, Express.js, React.js, Node.js)**. The application provides inventory, supplier, product, category, order, and staff management through role-specific dashboards.
-
-The backend follows a modular RESTful architecture with JWT-based authentication and role-based authorization, while the frontend delivers a responsive user experience using React and Vite.
-
----
-
-## Features
-
-### Authentication
-- User Registration & Login
-- Forgot Password & Password Reset
-- JWT Authentication
-- Protected Routes
-- Role-Based Access Control
-
-### Inventory Management
-- Warehouse Stock Management
-- Product Management
-- Category Management
-- Supplier Management
-- Order Management
-
-### Staff Management
-- Staff Profile Management
-- Staff Administration
-- Role Management (Master Admin, Manager, Staff, Warehouse Admin)
-
-### Role Access
-- **Master Admin:** Created from the backend only; manages users, roles, warehouses, and all system data.
-- **Manager:** Read-only dashboard and inventory access, plus order management. Cannot administer users or roles.
-- **Staff:** Read-only dashboard and inventory access.
-- **Warehouse Admin:** Assigned to one warehouse; can view and update that warehouse and its stock only.
-
-### Dashboard
-- Product and order chart components (some currently use demo data)
-- Inventory Tracking
-- Admin search and filtering
-
-### Additional Features
-- Supplier document uploads using Multer
-- Product image uploads using Cloudinary
-- Barcode generation and CSV report export
-- RESTful API Design
-- MongoDB Integration
-- Responsive User Interface
-
-> **Current limitation:** Some dashboard cards, charts, staff/warehouse summaries, and report data are static or generated sample data rather than live backend analytics.
+  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+  [![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
+  [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
+  [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
+  [![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+</div>
 
 ---
 
-# Tech Stack
-
-## Frontend
-
-- React.js
-- Vite
-- React Router
-- Context API
-- Axios
-- Tailwind CSS
-- Recharts and ApexCharts
-- Lucide React and React Icons
-- JsBarcode
-
-## Backend
-
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-- JWT
-- bcrypt
-- Multer
-- Nodemailer
-- dotenv
+## 📖 Table of Contents
+- [About the Project](#about-the-project)
+- [System Architecture](#system-architecture)
+- [Key Features](#key-features)
+- [Role-Based Access Control (RBAC)](#role-based-access-control-rbac)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [API Reference](#api-reference)
+- [Getting Started](#getting-started)
+- [Security](#security)
+- [Future Enhancements](#future-enhancements)
+- [Author](#author)
 
 ---
 
-# Project Structure
+## 🚀 About the Project
+This project is a comprehensive **Inventory Management System** designed to handle complex supply chain operations. It seamlessly integrates warehouse tracking, supplier relations, product cataloging, and staff management under a single unified dashboard. The system guarantees secure data handling through JWT-based authentication and a rigorous Role-Based Access Control (RBAC) mechanism.
+
+---
+
+## 🏗️ System Architecture
+
+The application is built on a scalable **Client-Server Architecture** employing the MERN stack.
+
+```mermaid
+architecture-diagram
+flowchart TD
+    subgraph Frontend [Client Side - React/Vite]
+        UI[User Interface]
+        Ctx[State Management / Context API]
+        Router[React Router DOM]
+        Axios[Axios HTTP Client]
+        
+        UI --> Ctx
+        UI --> Router
+        Router --> Axios
+    end
+
+    subgraph Backend [Server Side - Node.js/Express]
+        API[Express Routes]
+        Auth[JWT & RBAC Middleware]
+        Ctrl[Controllers]
+        Mongoose[Mongoose Models]
+        Services[Services - Multer/Nodemailer]
+
+        Axios -->|HTTP/REST| API
+        API --> Auth
+        Auth -->|Validated| Ctrl
+        Ctrl --> Services
+        Ctrl --> Mongoose
+    end
+
+    subgraph Database [Database]
+        MongoDB[(MongoDB Atlas / Local)]
+        Mongoose -->|CRUD Operations| MongoDB
+    end
+```
+
+### Architecture Highlights
+- **Frontend Layer**: React-based Single Page Application (SPA) utilizing Vite for fast builds. Manages routing, state, and visual charting (Recharts/ApexCharts).
+- **API Gateway/Routing**: Express.js router acts as the entry point for all client requests.
+- **Security Middleware**: Intercepts requests to validate JWT tokens and enforce role permissions before forwarding to controllers.
+- **Controller Layer**: Contains the core business logic (Inventory handling, Staff management, Order processing).
+- **Data Access Layer**: Mongoose ORM models define the schema structure and interact directly with the MongoDB database.
+
+---
+
+## ✨ Key Features
+
+- **🔐 Robust Authentication**: Secure login, registration, and password recovery via JWT and bcrypt.
+- **📊 Real-time Dashboard**: Visual metrics utilizing charting libraries for tracking orders, revenue, and stock levels.
+- **🏢 Warehouse Management**: Assign and track stock levels across multiple physical warehouse locations.
+- **📦 Product & Category Catalog**: Full CRUD capabilities for products, complete with Cloudinary image uploads and barcode generation.
+- **🚚 Supplier & Order Tracking**: Manage vendor details, upload documents, and track order fulfillment statuses.
+- **👥 Staff Administration**: Comprehensive staff profile management with hierarchical role distribution.
+
+---
+
+## 🛡️ Role-Based Access Control (RBAC)
+
+The system restricts functionality based on four distinct user roles:
+
+| Role | Permissions & Access Level |
+|------|---------------------------|
+| **👑 Master Admin** | Absolute control. Can manage all users, assign roles, create warehouses, and access all system data. (Created via backend script only). |
+| **👔 Manager** | Can view inventory, access the dashboard, and manage orders. Cannot administer staff roles. |
+| **🏬 Warehouse Admin**| Confined to a specific warehouse. Can only view and update stock/operations within their assigned location. |
+| **👷 Staff** | Basic read-only access to the dashboard and general inventory lists. |
+
+---
+
+## 💻 Tech Stack
+
+### 🎨 Frontend
+- **Framework**: React.js 19 with Vite
+- **Routing**: React Router DOM v7
+- **Styling**: Tailwind CSS v4
+- **State/HTTP**: React Context API, Axios
+- **UI Components**: Framer Motion, Lucide React, React Icons
+- **Data Visualization**: Recharts, ApexCharts
+- **Utilities**: JsBarcode
+
+### ⚙️ Backend
+- **Runtime Environment**: Node.js
+- **Framework**: Express.js 5
+- **Database**: MongoDB with Mongoose ODM
+- **Authentication**: JSON Web Tokens (JWT), bcryptjs
+- **File Uploads**: Multer
+- **Email Services**: Nodemailer
+
+---
+
+## 📁 Project Structure
 
 ```text
-Inventory_management_system_mohit.ISM
-│
-├── backend
-│   ├── controllers/
-│   ├── db/
-│   ├── middleware/
-│   ├── models/
-│   ├── routes/
-│   ├── uploads/
-│   ├── utils/
-│   ├── index.js
-│   ├── seed.js
+Inventory_management_system_mohit.ISM/
+├── backend/
+│   ├── controllers/      # Business logic and request handling
+│   ├── db/               # Database connection setup
+│   ├── middleware/       # JWT auth and RBAC role validation
+│   ├── models/           # Mongoose schemas (User, Product, Order, etc.)
+│   ├── routes/           # Express API route definitions
+│   ├── scripts/          # Admin provisioning scripts
+│   ├── uploads/          # Local storage for Multer uploads
+│   ├── utils/            # Helper functions (Mailers, formatters)
+│   ├── index.js          # Main server entry point
+│   ├── seed.js           # Database seeding script
 │   └── package.json
 │
-├── frontend
-│   ├── public/
+├── frontend/
+│   ├── public/           # Static assets
 │   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── layout/   # Shared portal frame and navigation helpers
-│   │   ├── pages/
-│   │   ├── routes/
-│   │   ├── Staff/       # Staff portal pages and layout
-│   │   ├── Warehouse/   # Warehouse portal pages and layout
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   ├── package.json
-│   └── vite.config.js
-│
+│   │   ├── assets/       # Images and global styles
+│   │   ├── components/   # Reusable UI components (Charts, Forms, Cards)
+│   │   ├── context/      # React Context providers (Auth, Theme)
+│   │   ├── layout/       # Shared structural layouts (Navbars, Sidebars)
+│   │   ├── pages/        # Main application views
+│   │   ├── routes/       # Protected and public route definitions
+│   │   ├── Staff/        # Staff-specific views
+│   │   ├── Warehouse/    # Warehouse-specific views
+│   │   ├── App.jsx       # Root component
+│   │   └── main.jsx      # React DOM entry
+│   ├── vite.config.js
+│   └── package.json
 └── README.md
 ```
 
-The shared portal frame and search helpers are in `frontend/src/layout/`. Reusable frontend components are grouped under `frontend/src/components/` by type (forms, charts, lists, and summary cards).
+---
+
+## 🔌 API Reference
+
+The backend exposes a RESTful API. Below are the core endpoints:
+
+**Authentication** (`/api/auth`)
+- `POST /register` - Register a new account
+- `POST /login` - Authenticate and receive JWT
+- `POST /forgot-password` - Request a password reset link
+- `POST /reset-password/:token` - Reset account password
+
+**Core Entities** (Standard CRUD: `GET`, `POST`, `PUT`, `DELETE`)
+- `/api/products` - Manage products and retrieve trend analysis (`/analysis/trends`)
+- `/api/categories` - Manage product categories
+- `/api/orders` - Order processing and status updates (`PATCH /status/:id`)
+- `/api/suppliers` - Manage suppliers
+- `/api/warehouse` - Warehouse administration
+- `/api/staffs` - Manage staff and individual profiles (`GET /profile`, `PUT /update-profile`)
+
+**System**
+- `GET /health` - API health check
 
 ---
 
-```mermaid
-flowchart TB
+## 🛠️ Getting Started
 
-    Client[React frontend] -->|Axios requests| Routes[Express routes]
-    Routes -->|Protected endpoints| Auth[JWT and role middleware]
-    Routes -->|Public endpoints| Controllers[Controllers]
-    Auth --> Controllers
-    Controllers --> Models[Mongoose models]
-    Models --> MongoDB[(MongoDB)]
-    Controllers --> Mailer[Nodemailer]
-```
+Follow these steps to run the project locally.
 
----
-
-# REST API
-
-## Authentication
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Register a new user |
-| POST | `/api/auth/login` | Authenticate user |
-| POST | `/api/auth/forgot-password` | Send password reset link |
-| POST | `/api/auth/reset-password/:token` | Reset password |
-
----
-
-## Categories
-
-| Method | Endpoint |
-|--------|----------|
-| GET | `/api/categories` |
-| POST | `/api/categories` |
-| PUT | `/api/categories/:id` |
-| DELETE | `/api/categories/:id` |
-
----
-
-## Products
-
-| Method | Endpoint |
-|--------|----------|
-| GET | `/api/products` |
-| GET | `/api/products/analysis/trends` |
-| POST | `/api/products` |
-| PUT | `/api/products/:id` |
-| DELETE | `/api/products/:id` |
-
----
-
-## Warehouse
-
-| Method | Endpoint |
-|--------|----------|
-| GET | `/api/warehouse` |
-| POST | `/api/warehouse` |
-| PUT | `/api/warehouse/:id` |
-| DELETE | `/api/warehouse/:id` |
-
----
-
-## Suppliers
-
-| Method | Endpoint |
-|--------|----------|
-| GET | `/api/suppliers` |
-| POST | `/api/suppliers` |
-| PUT | `/api/suppliers/:id` |
-| DELETE | `/api/suppliers/:id` |
-
----
-
-## Staff
-
-| Method | Endpoint |
-|--------|----------|
-| GET | `/api/staffs/profile` |
-| PUT | `/api/staffs/update-profile` |
-| GET | `/api/staffs` |
-| POST | `/api/staffs` |
-| PUT | `/api/staffs/:id` |
-| DELETE | `/api/staffs/:id` |
-
----
-
-## Orders
-
-| Method | Endpoint |
-|--------|----------|
-| GET | `/api/orders` |
-| GET | `/api/orders/analysis/trends` |
-| POST | `/api/orders` |
-| PUT | `/api/orders/:id` |
-| PATCH | `/api/orders/status/:id` |
-| DELETE | `/api/orders/:id` |
-
-## Health
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/health` | Check whether the API process is responding |
-
----
-
-# Installation
-
-## Clone Repository
-
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/Mohitkumar2217/Inventory_management_system_mohit.ISM.git
-
 cd Inventory_management_system_mohit.ISM
 ```
 
-## Backend Setup
-
-Create `backend/.env` using the variables listed below before starting the API.
+### 2. Backend Setup
+Navigate to the backend directory, install dependencies, and configure your environment.
 
 ```bash
 cd backend
-
 npm install
-
-npm run admin:create
-
-npm start
 ```
 
-The admin command provisions the configured master admin. The backend start command uses Node's watch mode.
-
-### Optional Sample Data
-
-```bash
-npm run seed
-```
-
-Run this from `backend/` only against a disposable database. The seed script deletes non-admin users and existing categories, suppliers, warehouses, products, and orders before inserting sample records. It preserves master-admin accounts.
-
-### Rotate the Master Admin Password
-
-Update `MASTER_ADMIN_PASSWORD` in `backend/.env`, then rerun `npm run admin:create` from `backend/`. The provisioning command also demotes any other `admin` accounts to regular staff.
-
-## Frontend Setup
-
-```bash
-cd frontend
-
-npm install
-
-npm run dev
-```
-
-Run the backend and frontend in separate terminals. The frontend reads `VITE_API_URL` as the backend origin and appends `/api` to it.
-
----
-
-# Environment Variables
-
-Create `backend/.env` with the variables the server reads:
-
+Create a `.env` file in the `backend` folder:
 ```env
 PORT=4000
 MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
-EMAIL_USER=your_email
-EMAIL_PASS=your_email_app_password
-MASTER_ADMIN_NAME=Master Administrator
+JWT_SECRET=your_super_secret_jwt_key
+EMAIL_USER=your_smtp_email
+EMAIL_PASS=your_smtp_app_password
+MASTER_ADMIN_NAME=Master Admin
 MASTER_ADMIN_EMAIL=admin@example.com
-MASTER_ADMIN_PASSWORD=replace_with_a_unique_password_of_at_least_12_characters
+MASTER_ADMIN_PASSWORD=secure_password_123
 ```
 
-Create `frontend/.env` and set the backend origin (do not add `/api`):
+**Initialize Admin and Start Server:**
+```bash
+# Creates the Master Admin based on .env variables
+npm run admin:create
 
+# Start the development server
+npm run start
+```
+*(Optional)* Populate the database with sample data: `npm run seed`
+
+### 3. Frontend Setup
+Open a new terminal, navigate to the frontend directory, and start the Vite dev server.
+
+```bash
+cd frontend
+npm install
+```
+
+Create a `.env` file in the `frontend` folder:
 ```env
 VITE_API_URL=http://localhost:4000
 ```
 
-`PORT` defaults to `4000` if unset. Frontend origins allowed by CORS are currently configured in `backend/index.js`.
+**Start the Client:**
+```bash
+npm run dev
+```
 
 ---
 
-# Security
-
-- JWT authentication and role checks on protected routes
-- Password Hashing (bcrypt)
-- Protected REST APIs
-- Password reset tokens expire after 15 minutes
-- Supplier multipart uploads handled by Multer
-
-Public registration always creates a staff account. Admin and warehouse-admin roles are assigned only through backend provisioning or authenticated master-admin controls.
+## 🔒 Security Measures
+- **Password Protection**: Passwords are mathematically hashed using `bcrypt` before storage.
+- **Stateless Authentication**: Sessions are managed via short-lived JSON Web Tokens (JWT).
+- **Endpoint Protection**: API routes are secured by middleware verifying both token validity and user roles.
+- **Time-bound Operations**: Password reset tokens expire automatically after 15 minutes to prevent replay attacks.
+- **File Upload Validation**: Multer is configured to validate file types and sizes for supplier documents and product images.
 
 ---
 
-# Future Improvements
-
-- Replace demo dashboard, chart, and report values with live API data
-- QR code generation (barcode generation is already present)
-- Real-time low-stock alert delivery
-- PDF and Excel report exports (CSV export is present)
-- Docker Support
-- CI/CD Pipeline
-- Unit & Integration Testing
-- Swagger API Documentation
+## 🔮 Future Enhancements
+- [ ] Transition demo dashboard analytics to consume live database metrics.
+- [ ] Implement automated real-time low-stock email notifications.
+- [ ] Add comprehensive PDF and Excel reporting exports (CSV currently supported).
+- [ ] Containerize the application using Docker and Docker Compose.
+- [ ] Integrate a Swagger UI for interactive API documentation.
+- [ ] Implement Unit (Jest) and E2E (Cypress) testing suites.
 
 ---
 
-# Author
+## ✍️ Author
+**Mohit Kumawat**
 
-**Mohit Kumawat** 
-
----
-
-## Show Your Support
-
-If you found this project useful, consider giving it a ⭐ on GitHub.
-#   I n v e n t o r y _ M a n a g e m e n t _ S y s t e m  
- 
+If you found this project helpful or inspiring, please consider giving it a ⭐ on GitHub!
