@@ -37,7 +37,6 @@ This project is a comprehensive **Inventory Management System** designed to hand
 The application is built on a scalable **Client-Server Architecture** employing the MERN stack.
 
 ```mermaid
-architecture-diagram
 flowchart TD
     subgraph Frontend [Client Side - React/Vite]
         UI[User Interface]
